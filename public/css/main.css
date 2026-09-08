@@ -158,6 +158,10 @@ footer {
     font-size: 0.9rem;
     margin-top: auto;
 }
+#footer-text{
+    color: #ffffff ; 
+    font-weight: 500;
+}
 
 /* ==========================================================================
    6. RESPONSIVENESS (MOBILE-FIRST ADAPTATION)
