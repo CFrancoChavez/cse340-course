@@ -1,30 +1,187 @@
-html, body {
-    background-color: lightblue;
-    font-family: Arial, sans-serif;
+/* ==========================================================================
+   1. RESET & GLOBAL VARIABLES (Accessibility & Color System)
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
-    padding: 20px;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #0f4c81;       /* Professional high-contrast blue */
+    --primary-hover: #1a629d;
+    --background-color: #f4f7f6;    /* Soft light gray/blue background for reduced eye strain */
+    --surface-color: #ffffff;       /* Card background */
+    --text-color: #212529;          /* Main text color */
+    --text-muted: #555555;          /* Secondary text color */
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --radius: 8px;
+    --font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+html {
+    font-size: 100%;
 }
 
 body {
-    nav {
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
 
-        li {
-            display: inline;
-            margin-right: 15px;
-        }
+/* ==========================================================================
+   2. NAVIGATION (HEADER / NAV)
+   ========================================================================== */
+nav {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    padding: 0 1rem;
+}
 
-        a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 900px;
+    margin: 0 auto;
+}
 
-            &:hover {
-                color: #0066cc;
-            }
-        }
+nav li {
+    margin: 0;
+}
+
+nav a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 1rem 1.2rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+nav a:hover, 
+nav a:focus-visible {
+    background-color: var(--primary-hover);
+    outline: 2px solid #ffffff;
+    outline-offset: -4px;
+}
+
+/* ==========================================================================
+   3. MAIN CONTAINER (CARD LAYOUT)
+   ========================================================================== */
+main {
+    background-color: var(--surface-color);
+    max-width: 900px;
+    width: 90%;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    flex: 1; /* Pushes footer down to the bottom */
+}
+
+/* Headings & Hierarchy */
+h1 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+h2 {
+    color: var(--text-color);
+    font-size: 1.4rem;
+    margin: 1.5rem 0 0.8rem;
+}
+
+p {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.2rem;
+}
+
+/* ==========================================================================
+   4. LISTS & COMPONENTS (Projects, Organizations, Categories)
+   ========================================================================== */
+main ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+}
+
+main ul li {
+    background-color: #f9fbfd;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-size: 1rem;
+}
+
+/* Strict image dimensions for organization logos inside <li> */
+main ul li img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+/* Primary logo image on Home page */
+.main-logo {
+    max-width: 280px;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 2rem auto 1rem;
+}
+
+/* ==========================================================================
+   5. FOOTER
+   ========================================================================== */
+footer {
+    background-color: #1e293b;
+    color: #cbd5e1;
+    text-align: center;
+    padding: 1.2rem 1rem;
+    font-size: 0.9rem;
+    margin-top: auto;
+}
+
+/* ==========================================================================
+   6. RESPONSIVENESS (MOBILE-FIRST ADAPTATION)
+   ========================================================================== */
+@media (max-width: 600px) {
+    main {
+        width: 95%;
+        padding: 1.5rem;
+        margin: 1rem auto;
     }
-}                
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        padding: 0.75rem 1rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    main ul li {
+        flex-direction: column;
+        text-align: center;
+    }
+}
