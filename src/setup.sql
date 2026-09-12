@@ -54,3 +54,48 @@ INSERT INTO service_project (organization_id, title, description, location, proj
 (3, 'Soup Kitchen Support Weekend', 'Preparing and serving warm meals over the weekend.', 'Downtown Rescue Mission', '2026-12-01'),
 (3, 'Toy Drive Wrapping and Delivery', 'Wrapping donated holiday toys for local children hospitals.', 'Civic Center Hall A', '2026-12-20'),
 (3, 'Community Health & Hygiene Pack Kits', 'Assembling hygiene kits for homeless shelters.', 'Unity Community Center', '2027-01-15');
+
+-- 1. Crear la tabla category
+CREATE TABLE IF NOT EXISTS category (
+    category_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- 2. Crear la tabla intermedia para la relación M:N
+CREATE TABLE IF NOT EXISTS project_category (
+    project_id INT NOT NULL,
+    category_id INT NOT NULL,
+    PRIMARY KEY (project_id, category_id),
+    CONSTRAINT fk_project 
+        FOREIGN KEY (project_id) 
+        REFERENCES service_project(project_id) 
+        ON DELETE CASCADE,
+    CONSTRAINT fk_category 
+        FOREIGN KEY (category_id) 
+        REFERENCES category(category_id) 
+        ON DELETE CASCADE
+);
+
+-- 3. Insertar al menos 3 categorías
+INSERT INTO category (name) VALUES
+('Infrastructure & Maintenance'),
+('Environmental & Agriculture'),
+('Social & Community Support');
+
+-- 4. Asociar cada uno de los 15 proyectos con al menos una categoría
+INSERT INTO project_category (project_id, category_id) VALUES
+(1, 1), (1, 3), -- Project 1: Infrastructure, Social
+(2, 1), (2, 2), -- Project 2: Infrastructure, Environmental
+(3, 1), (3, 3), -- Project 3: Infrastructure, Social
+(4, 1),         -- Project 4: Infrastructure
+(5, 1), (5, 3), -- Project 5: Infrastructure, Social
+(6, 2),         -- Project 6: Environmental
+(7, 2),         -- Project 7: Environmental
+(8, 2), (8, 3), -- Project 8: Environmental, Social
+(9, 1), (9, 2), -- Project 9: Infrastructure, Environmental
+(10, 2),        -- Project 10: Environmental
+(11, 3),        -- Project 11: Social
+(12, 3),        -- Project 12: Social
+(13, 3),        -- Project 13: Social
+(14, 3),        -- Project 14: Social
+(15, 3);        -- Project 15: Social                                                                                                                                                                                                                                                                                                                                                                                                                                                         
