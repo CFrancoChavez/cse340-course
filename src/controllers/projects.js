@@ -1,6 +1,6 @@
 // Import needed model functions
 import { body, validationResult } from 'express-validator';
-import { getUpcomingProjects, getProjectDetails, createProject } from '../models/projects.js';
+import { getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
 
@@ -69,4 +69,55 @@ const processNewProjectForm = async (req, res) => {
     }
 }
 
-export { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, projectValidation };
+const showEditProjectForm = async (req, res, next) => {
+  try {
+    const projectId = req.params.id;
+    const projectDetails = await getProjectDetails(projectId);
+    const organizations = await getAllOrganizations();
+
+    if (!projectDetails) {
+      const err = new Error('Project not found');
+      err.status = 404;
+      return next(err);
+    }
+
+    // Formatear la fecha a YYYY-MM-DD para el input type="date"
+    if (projectDetails.date) {
+      projectDetails.formattedDate = new Date(projectDetails.date).toISOString().split('T')[0];
+    }
+
+    const title = 'Edit Service Project';
+    res.render('edit-project', { title, projectDetails, organizations });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const processEditProjectForm = async (req, res, next) => {
+  try {
+    const projectId = req.params.id;
+
+    // Validación de errores de express-validator
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach((error) => {
+        req.flash('error', error.msg);
+      });
+      return res.redirect(`/edit-project/${projectId}`);
+    }
+
+    const { title, description, location, date, organizationId } = req.body;
+
+    await updateProject(projectId, title, description, location, date, organizationId);
+
+    req.flash('success', 'Project updated successfully!');
+    res.redirect(`/project/${projectId}`);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export { showProjectsPage, showProjectDetailsPage, 
+        showNewProjectForm, processNewProjectForm, 
+        projectValidation, showEditProjectForm, 
+        processEditProjectForm };
