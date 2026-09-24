@@ -30,13 +30,14 @@
             <p>No categories assigned to this project.</p>
         <% } %>
 
+        <!-- Acciones del proyecto dentro de la condición -->
+        <p><a href="/edit-project/<%= project.project_id %>">Edit Project Details</a></p>
+        <p><a href="/assign-categories/<%= project.project_id %>">Edit Categories</a></p>
+
     <% } else { %>
         <h2>Project Not Found</h2>
         <p>The service project you are looking for does not exist.</p>
     <% } %>
-    <p>
-        <a href="/assign-categories/<%= project.project_id %>">Edit Categories</a>
-    </p>
 </main>
 
 <%- include('partials/footer') %>
