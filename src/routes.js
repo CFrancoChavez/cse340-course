@@ -1,12 +1,22 @@
 import express from 'express';
 import { showHomePage } from './controllers/index.js';
-import { showOrganizationsPage, showOrganizationDetailsPage, showNewOrganizationForm, 
-        processNewOrganizationForm, organizationValidation, showEditOrganizationForm, 
-        processEditOrganizationForm} from './controllers/organizations.js';
-import { showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm, 
-        projectValidation, showEditProjectForm, processEditProjectForm } from './controllers/projects.js';
-import { showCategoriesPage, showCategoryDetailsPage, showAssignCategoriesForm,
-        processAssignCategoriesForm} from './controllers/categories.js';
+import {
+        showOrganizationsPage, showOrganizationDetailsPage, showNewOrganizationForm,
+        processNewOrganizationForm, organizationValidation, showEditOrganizationForm,
+        processEditOrganizationForm
+} from './controllers/organizations.js';
+import {
+        showProjectsPage, showProjectDetailsPage, showNewProjectForm, processNewProjectForm,
+        projectValidation, showEditProjectForm, processEditProjectForm
+} from './controllers/projects.js';
+import {
+        showCategoriesPage, showCategoryDetailsPage, showAssignCategoriesForm,
+        processAssignCategoriesForm, showNewCategoryForm,
+        processNewCategoryForm,
+        showEditCategoryForm,
+        processEditCategoryForm,
+        categoryValidation
+} from './controllers/categories.js';
 import { testErrorPage } from './controllers/errors.js';
 
 
@@ -35,6 +45,12 @@ router.post('/assign-categories/:projectId', processAssignCategoriesForm);
 //Project editing routes
 router.get('/edit-project/:id', showEditProjectForm);
 router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+// Routes for Creating a Category
+router.get('/new-category', showNewCategoryForm);
+router.post('/new-category', categoryValidation, processNewCategoryForm);
+// Routes for Editing Category
+router.get('/edit-category/:id', showEditCategoryForm);
+router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 
 // Error-handling test route
 router.get('/test-error', testErrorPage);
