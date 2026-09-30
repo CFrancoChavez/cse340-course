@@ -18,23 +18,23 @@ const getAllProjects = async () => {
 };
 
 const getProjectsByOrganizationId = async (organizationId) => {
-      const query = `
+    const query = `
         SELECT
-        project_id,
-        organization_id,
-        title,
-        description,
-        location,
-        project_date
-      FROM service_project
-      WHERE organization_id = $1
-      ORDER BY project_date ASC;
-      `;
-      
-      const queryParams = [organizationId];
-      const result = await db.query(query, queryParams);
+            project_id,
+            organization_id,
+            title,
+            description,
+            location,
+            project_date
+        FROM service_project
+        WHERE organization_id = $1
+        ORDER BY project_date ASC;
+    `;
+    
+    const queryParams = [organizationId];
+    const result = await db.query(query, queryParams);
 
-      return result.rows;
+    return result.rows;
 };
 
 const getUpcomingProjects = async (number_of_projects) => {
@@ -80,8 +80,9 @@ const getProjectDetails = async (id) => {
 };
 
 const createProject = async (title, description, location, date, organizationId) => {
+    // CORREGIDO: "date" cambiado a "project_date"
     const query = `
-      INSERT INTO service_project (title, description, location, date, organization_id)
+      INSERT INTO service_project (title, description, location, project_date, organization_id)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING project_id;
     `;
@@ -98,7 +99,7 @@ const createProject = async (title, description, location, date, organizationId)
     }
 
     return result.rows[0].project_id;
-}
+};
 
 const updateProject = async (projectId, title, description, location, date, organizationId) => {
   const query = `
@@ -122,7 +123,6 @@ const updateProject = async (projectId, title, description, location, date, orga
   return result.rows[0].project_id;
 };
 
-// Actualiza tu exportación al final del archivo
 export { 
     getAllProjects, 
     getProjectsByOrganizationId, 
