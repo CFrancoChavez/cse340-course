@@ -17,6 +17,7 @@ import {
         processEditCategoryForm,
         categoryValidation
 } from './controllers/categories.js';
+import { showUserRegistrationForm, processUserRegistrationForm } from './controllers/users.js';
 import { testErrorPage } from './controllers/errors.js';
 
 
@@ -51,6 +52,9 @@ router.post('/new-category', categoryValidation, processNewCategoryForm);
 // Routes for Editing Category
 router.get('/edit-category/:id', showEditCategoryForm);
 router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+// User registration routes
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
 
 // Error-handling test route
 router.get('/test-error', testErrorPage);
