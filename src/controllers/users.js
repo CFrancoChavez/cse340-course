@@ -32,19 +32,16 @@ const showLoginForm = (req, res) => {
 
 const processLoginForm = async (req, res) => {
     const { email, password } = req.body;
-
     try {
         const user = await authenticateUser(email, password);
         if (user) {
-            // Store user info in session
             req.session.user = user;
             req.flash('success', 'Login successful!');
-
             if (res.locals.NODE_ENV === 'development') {
                 console.log('User logged in:', user);
             }
-
-            res.redirect('/');
+            // Cambiado res.redirect('/') por res.redirect('/dashboard')
+            res.redirect('/dashboard'); 
         } else {
             req.flash('error', 'Invalid email or password.');
             res.redirect('/login');
@@ -65,9 +62,30 @@ const processLogout = async (req, res) => {
     res.redirect('/login');
 };
 
+// Middleware para proteger rutas que requieren autenticación
+const requireLogin = (req, res, next) => {
+    if (!req.session || !req.session.user) {
+        req.flash('error', 'You must be logged in to access that page.');
+        return res.redirect('/login');
+    }
+    next();
+};
+
+// Controlador para mostrar el Dashboard
+const showDashboard = (req, res) => {
+    const user = req.session.user;
+    res.render('dashboard', { 
+        title: 'Dashboard',
+        name: user.name,
+        email: user.email
+    });
+};
+
 export { showUserRegistrationForm, 
         processUserRegistrationForm,
         showLoginForm, 
         processLoginForm,
-        processLogout
+        processLogout,
+        requireLogin,
+        showDashboard
         };
