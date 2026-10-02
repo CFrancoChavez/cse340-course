@@ -53,6 +53,15 @@ const showNewProjectForm = async (req, res) => {
 }
 
 const processNewProjectForm = async (req, res) => {
+    // Validar errores de express-validator
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        errors.array().forEach((error) => {
+            req.flash('error', error.msg);
+        });
+        return res.redirect('/new-project');
+    }
+
     // Extract form data from req.body
     const { title, description, location, date, organizationId } = req.body;
 
@@ -67,7 +76,7 @@ const processNewProjectForm = async (req, res) => {
         req.flash('error', 'There was an error creating the service project.');
         res.redirect('/new-project');
     }
-}
+};
 
 const showEditProjectForm = async (req, res, next) => {
   try {
