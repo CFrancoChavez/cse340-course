@@ -28,13 +28,16 @@
             <p>No service projects found for this organization.</p>
         <% } %>
 
+        <% if (user && user.role_name === 'admin') { %>
+            <p>
+                <a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization</a>
+            </p>
+        <% } %>
+
     <% } else { %>
         <h2>Organization Not Found</h2>
         <p>The organization you are looking for does not exist.</p>
     <% } %>
-    <p>
-        <a href="/edit-organization/<%= organizationDetails.organization_id %>">Edit Organization</a>
-    </p>
 </main>
 
 <%- include('partials/footer') %>

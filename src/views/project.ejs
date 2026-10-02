@@ -30,9 +30,10 @@
             <p>No categories assigned to this project.</p>
         <% } %>
 
-        <!-- Acciones del proyecto dentro de la condición -->
-        <p><a href="/edit-project/<%= project.project_id %>">Edit Project Details</a></p>
-        <p><a href="/assign-categories/<%= project.project_id %>">Edit Categories</a></p>
+        <% if (user && user.role_name === 'admin') { %>
+            <p><a href="/edit-project/<%= project.project_id %>">Edit Project Details</a></p>
+            <p><a href="/assign-categories/<%= project.project_id %>">Edit Categories</a></p>
+        <% } %>
 
     <% } else { %>
         <h2>Project Not Found</h2>

@@ -81,11 +81,35 @@ const showDashboard = (req, res) => {
     });
 };
 
+/**
+ * Middleware factory to require a specific role 
+ * @param {string} role - Nombre del rol requerido (ej. 'admin')
+ * @returns {Function} Express middleware
+ */
+const requireRole = (role) => {
+    return (req, res, next) => {
+        // the user is logged in ?
+        if (!req.session || !req.session.user) {
+            req.flash('error', 'You must be logged in to access this page.');
+            return res.redirect('/login');
+        }
+
+        // check if the role matches 
+        if (req.session.user.role_name !== role) {
+            req.flash('error', 'You do not have permission to access this page.');
+            return res.redirect('/');
+        }
+
+       //permission granted 
+        next();
+    };
+};
 export { showUserRegistrationForm, 
         processUserRegistrationForm,
         showLoginForm, 
         processLoginForm,
         processLogout,
         requireLogin,
-        showDashboard
+        showDashboard,
+        requireRole
         };

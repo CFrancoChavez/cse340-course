@@ -135,3 +135,16 @@ JOIN roles r ON u.role_id = r.role_id;
 
 DELETE FROM users WHERE email = 'test@example.com';
 
+-- Verificar usuario y roles existentes
+SELECT * FROM users;
+SELECT * FROM roles;
+
+-- Promover la cuenta a rol 'admin' mediante subconsulta
+UPDATE users 
+SET role_id = (SELECT role_id FROM roles WHERE role_name = 'admin') 
+WHERE email = 'admin@example.com';
+
+-- Confirmar el cambio con un JOIN
+SELECT u.user_id, u.name, u.email, r.role_name 
+FROM users u 
+JOIN roles r ON u.role_id = r.role_id;
