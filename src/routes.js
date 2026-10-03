@@ -24,7 +24,7 @@ import {
     requireLogin,
     showDashboard,
     requireRole,
-    renderUserList
+    renderUsersList
 } from './controllers/users.js';
 import { testErrorPage } from './controllers/errors.js';
 
