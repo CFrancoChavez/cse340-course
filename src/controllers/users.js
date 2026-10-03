@@ -106,7 +106,7 @@ const requireRole = (role) => {
     };
 };
 
-const renderUserList = async (req, res) => {
+const renderUsersList = async (req, res) => {
     try{
         const users = await getAllUsers();
         res.render('users', {
@@ -130,5 +130,5 @@ export { showUserRegistrationForm,
         requireLogin,
         showDashboard,
         requireRole,
-        renderUserList
+        renderUsersList
         };
