@@ -23,7 +23,8 @@ import {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    renderUserList
 } from './controllers/users.js';
 import { testErrorPage } from './controllers/errors.js';
 
@@ -51,6 +52,9 @@ router.get('/logout', processLogout);
 router.get('/dashboard', requireLogin, showDashboard);
 
 //Protected Administrative Routes (Require 'admin' role) 
+
+// Users Management
+router.get('/users', requireLogin, requireRole('admin'), renderUsersList);
 
 // Organizations
 router.get('/new-organization', requireRole('admin'), showNewOrganizationForm);
