@@ -29,6 +29,25 @@
         <% } else { %>
             <p>No categories assigned to this project.</p>
         <% } %>
+        <!-- Sección de Voluntariado -->
+        <% if (user) { %>
+            <div class="volunteer-section">
+                <% if (isVolunteering) { %>
+                    <p><strong>You are volunteering for this project!</strong></p>
+                    <p>
+                        <a href="/projects/<%= project.project_id %>/unvolunteer">
+                            Remove Volunteering
+                        </a>
+                    </p>
+                <% } else { %>
+                    <p>
+                        <a href="/projects/<%= project.project_id %>/volunteer">
+                            Volunteer for this project
+                        </a>
+                    </p>
+                <% } %>
+            </div>
+        <% } %>
 
         <% if (user && user.role_name === 'admin') { %>
             <p><a href="/edit-project/<%= project.project_id %>">Edit Project Details</a></p>

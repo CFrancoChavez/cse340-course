@@ -26,6 +26,7 @@ import {
     requireRole,
     renderUsersList
 } from './controllers/users.js';
+import { handleAddVolunteer, handleRemoveVolunteer } from './controllers/volunteers.js';
 import { testErrorPage } from './controllers/errors.js';
 
 const router = express.Router();
@@ -50,6 +51,10 @@ router.post('/login', processLoginForm);
 router.get('/logout', processLogout);
 
 router.get('/dashboard', requireLogin, showDashboard);
+
+// Volunteer Routes (Require authentication)
+router.get('/projects/:id/volunteer', requireLogin, handleAddVolunteer);
+router.get('/projects/:id/unvolunteer', requireLogin, handleRemoveVolunteer);
 
 //Protected Administrative Routes (Require 'admin' role) 
 
